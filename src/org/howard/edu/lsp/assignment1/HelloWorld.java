@@ -1,5 +1,5 @@
 /**
- * Name: Juju
+ * Name: Nmachi Igwe
  */
 package org.howard.edu.lsp.assignment1;
 
