@@ -9,7 +9,7 @@ public class DefaultTransformer implements Transformer {
         List<CsvRow> out = new ArrayList<>();
         for (CsvRow row : rows) {
             // Example: drop rows without required field
-            if (row.get("id") == null || row.get("id").isBlank()) {
+            if (row.get("ProductID") == null || row.get("ProductID").isBlank()) {
                 continue;
             }
             CsvRow newRow = new CsvRow();
