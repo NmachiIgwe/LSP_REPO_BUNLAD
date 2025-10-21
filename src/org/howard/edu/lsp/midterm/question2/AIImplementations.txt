@@ -1,0 +1,21 @@
+Transcript 1
+
+Nmachi: I’m working on a CRC design for an Air Traffic Control system.
+ Each aircraft sends its data to the ground station — how do I identify the right classes for this?
+
+AI: Start by modeling real-world entities as classes. 
+You’ll likely need an Aircraft class (for flight data), an ATCStation class (for managing incoming data), and possibly a DisplaySystem class.
+Focus on responsibilities: receiving, unpacking, storing, and displaying information.
+
+Transcript 2
+
+Nmachi: Should the Aircraft class handle packet decoding or is that the ATCStation’s job?
+AI: Good question — decoding is typically the ground station’s responsibility.
+Keep the Aircraft class simple (only holds data like ID, type, position), and let the ATCStation or a helper class (PacketDecoder) handle unpacking. 
+This separation keeps the CRC cleaner.
+
+Transcript 3
+
+Juju: I have attributes and responsibilities for each class, but it feels redundant. Is that normal?
+AI: Some overlap is fine, but avoid duplication. If two classes share the same data or methods, see if one can use the other through association or aggregation. 
+CRC diagrams should emphasize collaboration, not repetition.

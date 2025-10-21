@@ -1,0 +1,22 @@
+Transcript 1
+
+Nmachi: The UML shows Car subclasses for Base, Luxury, and Sport.
+Why can’t I just change trim levels by switching objects?
+AI: Because inheritance locks the car’s type at instantiation. 
+If you create a LuxuryCar, it can’t later “become” a SportCar. 
+You need composition — have Car contain a TrimLevel object instead of extending it.
+
+Transcript 2
+
+Nmachi: So I should replace subclasses with a Trim class?
+AI: Exactly. Define a TrimLevel interface or class with attributes like features and pricing. 
+Then let Car hold a TrimLevel reference. 
+You can change trims dynamically by assigning a new TrimLevel object (car.setTrim(new SportTrim())).
+
+Transcript 3
+
+Juju: Would this break existing code that relies on inheritance?
+AI: Possibly, but you can refactor gradually. 
+Keep a factory method that instantiates cars with default trims. 
+Then migrate functionality from subclasses into specific TrimLevel classes. 
+This keeps flexibility while preserving structure.

@@ -1,0 +1,9 @@
+The UML shows Car with three subclasses Base, Sports, and Luxury. That design models trim by inheritance: the class of an object encodes its trim. In Java, an object’s runtime class is fixed once constructed; you cannot change an object’s class in-place. A built Base instance cannot become a Luxury instance without creating a new object of the Luxury class and copying or migrating state (VIN, options, production stage, sensors, etc.). That has several problems:
+
+• Loss of object identity: Replacing the instance breaks identity semantics (references to the original instance, object equality, identity in in-memory caches, listeners, or task queues). Unless you perform careful state transfer, you risk losing event subscriptions or temporary state.
+• API and type coupling: Code that expects a specific subclass type (e.g., if (car instanceof Luxury) { ... }) becomes brittle. Changing trim would require many places to handle replacement or additional conditional logic.
+• State migration complexity: Subclasses may add fields or behavior specific to a trim. Migrating these fields reliably when you replace an instance is error-prone and invasive.
+• Persistence complications: If objects are persisted by class type (ORM polymorphic mapping), replacing the object can require schema/DB updates and careful migration.
+• Manufacturing workflow semantics: A car’s production process usually attaches a stable identity (VIN) to a configuration that can change. Modeling configuration as class identity conflates identity with configuration.
+
+Because the UML uses subclassing for trim, the current structure does not support safe, natural runtime trim changes.

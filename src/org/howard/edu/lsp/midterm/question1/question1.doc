@@ -1,0 +1,8 @@
+Question 1
+
+
+A well-designed class demonstrates high cohesion: all methods and data closely relate to a single purpose. improves maintainability, readability, and testability, allowing developers to grasp the class's role easily. As Arthur Riel says, each class should have one concept and encapsulate only natural related responsibilities. Low cohesion occurs when a class mixes unrelated responsibilities, increasing the risk of errors when modified.
+
+Analyzing the StudentPortalHelper class, it is clear that it demonstrates low cohesion by combining unrelated responsibilities, such as GPA computation, CSV export, email formatting, date formatting, payment processing, password validation, and caching. These span multiple distinct concerns, which violates Riel’s heuristic that a class should have only one primary purpose. This design approach may be convenient for quick development, but it makes the code difficult to extend, test, or maintain. For example, changes to payment processing logic could affect caching or email formatting if dependencies evolve.
+
+Turning this class into smaller, cohesive classes focused on specific domains. GPA calculation should go in an AcademicRecordHelper or GradeService. Payment processing belongs in PaymentProcessor, caching in CacheManager, and password validation in SecurityUtils or AuthHelper. This approach follows the Single Responsibility Principle and cuts maintenance risks. Logical grouping enhances cohesion, architecture, and scalability. Reorganizing StudentPortalHelper into specialized classes will elevate its design quality and align with object-oriented best practices.

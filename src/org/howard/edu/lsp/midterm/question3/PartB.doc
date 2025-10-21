@@ -1,0 +1,63 @@
+Core idea: Model trim as a component (Strategy/Policy), not as the Car’s class. Replace the subclassing of trim with a Trim interface and have Car hold a Trim field. This makes trim a first-class, changeable attribute of a Car object:
+
+Design steps:
+
+Define a Trim interface that encapsulates trim-specific behavior and data:
+
+public interface Trim {
+  String getName();           // "Base", "Luxury", "Sport"
+  // Other trim-specific behaviors, e.g.:
+  double getPriceAdjustment();
+  List<String> getStandardFeatures();
+}
+
+
+concrete implementations: BaseTrim, LuxuryTrim, SportTrim implementing Trim.
+
+Modify Car to use composition:
+
+public class Car {
+  private final String vin;     // stable identity
+  private Trim trim;            // composition: changeable
+  private Engine engine;        // still composition
+  // other fields...
+
+  public Car(String vin, Trim initialTrim, Engine engine) {
+    this.vin = vin;
+    this.trim = initialTrim;
+    this.engine = engine;
+  }
+
+  public String getTrimLevel() {
+    return trim.getName();
+  }
+
+  public void setTrim(Trim newTrim) {
+    // validate constraints here (options compatibility, pricing hooks, etc.)
+    this.trim = newTrim;
+    // possible actions: recalc price, notify observers, persist change, run manufacturing checks
+  }
+}
+
+
+Update factories and persistence: Persist trim as a primitive/property (trim_id or enum name) rather than on class mapping. Provide a CarFactory or builder that constructs Car with a chosen Trim.
+
+Handle option migration and constraints: When switching trim, run a validation step to reconcile options (e.g., remove features not supported by the new trim, prompt customer choices, or add mandatory packages). Implement these as methods on Trim or within a TrimService.
+
+Testing & rollout strategy: Add unit tests for setTrim behavior; if using DB, write migrations to store trim as a column and migrate existing subclass-mapped rows into the new representation.
+
+Why composition is better here (advantages):
+
+Dynamic behavior: Changing trim is a simple field assignment; the Car object identity and references remain intact.
+
+Separation of concerns: Car handles identity and lifecycle; Trim encapsulates configuration details.
+
+Reduced subclass explosion: You avoid creating many hybrid subclasses when combinations of trim + options multiply.
+
+Easier maintenance and testing: Small Trim implementations are easier to unit test and evolve independently.
+
+Persistence-friendly: Storing trim as a field (enum or reference) is simpler than class-based polymorphic mapping.
+
+When to consider alternatives:
+
+If trim change implies drastic stateful behavior changes (complex different state machines), consider the State pattern (where Trim also provides state transition logic) or combine composition with event-driven migration hooks. If you need to layer optional features, consider the Decorator pattern for feature packages.
